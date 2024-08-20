@@ -1,0 +1,17 @@
+# Rider IDE generated files
+/.idea
+
+# Project artifacts
+src/AspNetCoreCleanArchitecture.Api/bin
+src/AspNetCoreCleanArchitecture.Api/obj
+src/AspNetCoreCleanArchitecture.Application/bin
+src/AspNetCoreCleanArchitecture.Application/obj
+src/AspNetCoreCleanArchitecture.Contracts/bin
+src/AspNetCoreCleanArchitecture.Contracts/obj
+src/AspNetCoreCleanArchitecture.Domain/bin
+src/AspNetCoreCleanArchitecture.Domain/obj
+src/AspNetCoreCleanArchitecture.Infrastructure/bin
+src/AspNetCoreCleanArchitecture.Infrastructure/obj
+
+# Api Logs
+/src/AspNetCoreCleanArchitecture.Api/Logs
