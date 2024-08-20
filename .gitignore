@@ -2,16 +2,13 @@
 /.idea
 
 # Project artifacts
-src/AspNetCoreCleanArchitecture.Api/bin
-src/AspNetCoreCleanArchitecture.Api/obj
-src/AspNetCoreCleanArchitecture.Application/bin
-src/AspNetCoreCleanArchitecture.Application/obj
-src/AspNetCoreCleanArchitecture.Contracts/bin
-src/AspNetCoreCleanArchitecture.Contracts/obj
-src/AspNetCoreCleanArchitecture.Domain/bin
-src/AspNetCoreCleanArchitecture.Domain/obj
-src/AspNetCoreCleanArchitecture.Infrastructure/bin
-src/AspNetCoreCleanArchitecture.Infrastructure/obj
-
-# Api Logs
-/src/AspNetCoreCleanArchitecture.Api/Logs
+src/UtilityBilling.Api/bin
+src/UtilityBilling.Api/obj
+src/UtilityBilling.Application/bin
+src/UtilityBilling.Application/obj
+src/UtilityBilling.Contracts/bin
+src/UtilityBilling.Contracts/obj
+src/UtilityBilling.Domain/bin
+src/UtilityBilling.Domain/obj
+src/UtilityBilling.Infrastructure/bin
+src/UtilityBilling.Infrastructure/obj
