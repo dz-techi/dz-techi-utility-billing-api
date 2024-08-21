@@ -12,6 +12,7 @@ public static class DependencyInjection
         services.AddSingleton<IAppDbContext, AppDbContext>();
 
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IUtilityBillPeriodRepository, UtilityBillPeriodRepository>();
         
         return services;
     }
