@@ -9,7 +9,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
 {
     private IAppDbContext AppDbContext { get; }
 
-    private IMongoCollection<T> Collection => AppDbContext.GetCollection<T>(CollectionName);
+    protected IMongoCollection<T> Collection => AppDbContext.GetCollection<T>(CollectionName);
 
     protected abstract string CollectionName { get; }    
     

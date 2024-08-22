@@ -2,6 +2,7 @@ using UtilityBilling.Api;
 using UtilityBilling.Application;
 using UtilityBilling.Infrastructure;
 using Serilog;
+using UtilityBilling.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,6 @@ builder.Services
     .AddApi(builder.Configuration)
     .AddApplication()
     .AddInfrastructure();
-
 
 builder.Host.UseSerilog((context, configuration) =>
 {
@@ -33,6 +33,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.SeedData();
+
+app.UseCors(builder =>
+{
+    builder
+        .WithOrigins("http://localhost:3000")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+});
 
 app.UseSerilogRequestLogging();
 
