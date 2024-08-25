@@ -1,9 +1,11 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UtilityBilling.Application.Queries.UtilityBillPeriod;
 
 namespace UtilityBilling.Api.Controllers;
 
+[Authorize]
 public class UtilityBillPeriodController : BaseController
 {
     public UtilityBillPeriodController(IMediator mediator) : base(mediator)

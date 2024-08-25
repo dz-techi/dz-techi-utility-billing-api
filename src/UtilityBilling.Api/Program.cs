@@ -11,12 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers();
-
 builder.Services
     .AddApi(builder.Configuration)
     .AddApplication()
     .AddInfrastructure();
+
+builder.Services.AddControllers();
 
 builder.Host.UseSerilog((context, configuration) =>
 {
@@ -36,6 +36,9 @@ if (app.Environment.IsDevelopment())
 
 app.SeedData();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseCors(builder =>
 {
     builder
@@ -45,6 +48,7 @@ app.UseCors(builder =>
 });
 
 app.UseSerilogRequestLogging();
+
 
 // TODO: This ugly part will be removed when this issue is fixed: https://github.com/dotnet/aspnetcore/issues/51888
 app.UseExceptionHandler(_ => { });
