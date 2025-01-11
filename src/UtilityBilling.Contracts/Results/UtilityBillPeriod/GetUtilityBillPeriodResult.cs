@@ -4,7 +4,7 @@ public class GetUtilityBillPeriodResult
 {
     public Guid Id { get; set; }
     
-    public DateTime YearMonth { get; set; }
+    public DateOnly MonthOfTheYear { get; set; }
 
     public List<UtilityBillResult> UtilityBills { get; set; } = [];
 }

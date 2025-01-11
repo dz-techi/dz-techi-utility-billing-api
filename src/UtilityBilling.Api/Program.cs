@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using UtilityBilling.Api;
 using UtilityBilling.Application;
 using UtilityBilling.Infrastructure;
@@ -16,7 +18,11 @@ builder.Services
     .AddApplication()
     .AddInfrastructure();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower));
+    });
 
 builder.Host.UseSerilog((context, configuration) =>
 {
@@ -48,7 +54,6 @@ app.UseCors(builder =>
 });
 
 app.UseSerilogRequestLogging();
-
 
 // TODO: This ugly part will be removed when this issue is fixed: https://github.com/dotnet/aspnetcore/issues/51888
 app.UseExceptionHandler(_ => { });

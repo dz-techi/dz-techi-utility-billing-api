@@ -1,4 +1,5 @@
 using UtilityBilling.Contracts.Common.Enums;
+using UtilityBilling.Contracts.Common.UtilityUnitType;
 using UtilityBilling.Domain.Common;
 
 namespace UtilityBilling.Domain.Models;
@@ -7,7 +8,7 @@ public class UtilityBillPeriodDto : BaseEntity
 {
     public Guid UserId { get; set; }
 
-    public DateTime YearMonth { get; set; }
+    public DateOnly MonthOfTheYear { get; set; }
 
     public List<UtilityBill> UtilityBills { get; set; } = [];
 }

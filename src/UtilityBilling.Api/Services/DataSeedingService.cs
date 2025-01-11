@@ -1,5 +1,6 @@
 using UtilityBilling.Api.Services.Interfaces;
 using UtilityBilling.Contracts.Common.Enums;
+using UtilityBilling.Contracts.Common.UtilityUnitType;
 using UtilityBilling.Domain.Models;
 using UtilityBilling.Infrastructure.Repositories.Interfaces;
 
@@ -33,31 +34,31 @@ public class DataSeedingService : IDataSeedingService
                 UserId = user1Id,
                 CreatedDate = new DateTime(2024, 1, 5),
                 UpdatedDate = new DateTime(2024, 1, 6),
-                YearMonth = new DateTime(2024, 1, 1),
-                UtilityBills = new List<UtilityBill>
-                {
-                    new()
+                MonthOfTheYear = new DateOnly(2024, 1, 1),
+                UtilityBills =
+                [
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Electricity,
                         MeasurementUnitType = MeasurementUnitType.KilowattHours,
                         Usage = 25.52m,
                         Cost = 32.44m
                     },
-                    new()
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Water,
                         MeasurementUnitType = MeasurementUnitType.CubicMeters,
                         Usage = 7.50m,
                         Cost = 17.29m
                     },
-                    new()
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Gas,
                         MeasurementUnitType = MeasurementUnitType.KilowattHours,
                         Usage = 3.22m,
                         Cost = 12.25m
                     }
-                }
+                ]
             },
             new()
             {
@@ -65,31 +66,31 @@ public class DataSeedingService : IDataSeedingService
                 UserId = user1Id,
                 CreatedDate = new DateTime(2024, 2, 4),
                 UpdatedDate = new DateTime(2024, 2, 6),
-                YearMonth = new DateTime(2024, 2, 1),
-                UtilityBills = new List<UtilityBill>
-                {
-                    new()
+                MonthOfTheYear = new DateOnly(2024, 2, 1),
+                UtilityBills =
+                [
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Electricity,
                         MeasurementUnitType = MeasurementUnitType.KilowattHours,
                         Usage = 20.52m,
                         Cost = 33.44m
                     },
-                    new()
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Water,
                         MeasurementUnitType = MeasurementUnitType.CubicMeters,
                         Usage = 8.50m,
                         Cost = 21.29m
                     },
-                    new()
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Gas,
                         MeasurementUnitType = MeasurementUnitType.KilowattHours,
                         Usage = 4.22m,
                         Cost = 19.25m
                     }
-                }
+                ]
             },
             new()
             {
@@ -97,31 +98,31 @@ public class DataSeedingService : IDataSeedingService
                 UserId = user2Id,
                 CreatedDate = new DateTime(2024, 1, 4),
                 UpdatedDate = new DateTime(2024, 1, 6),
-                YearMonth = new DateTime(2024, 1, 1),
-                UtilityBills = new List<UtilityBill>
-                {
-                    new()
+                MonthOfTheYear = new DateOnly(2024, 1, 1),
+                UtilityBills =
+                [
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Electricity,
                         MeasurementUnitType = MeasurementUnitType.KilowattHours,
                         Usage = 10.52m,
                         Cost = 19.44m
                     },
-                    new()
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Water,
                         MeasurementUnitType = MeasurementUnitType.CubicMeters,
                         Usage = 2.50m,
                         Cost = 4.49m
                     },
-                    new()
+                    new UtilityBill
                     {
                         UtilityBillType = UtilityBillType.Gas,
                         MeasurementUnitType = MeasurementUnitType.KilowattHours,
                         Usage = 1.22m,
                         Cost = 12.25m
                     }
-                }
+                ]
             },
         };
 
