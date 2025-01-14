@@ -1,33 +1,38 @@
-using System.Net;
 using UtilityBilling.Application.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UtilityBilling.Api.Exceptions;
 
-public sealed class GlobalExceptionHandler : IExceptionHandler
+public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        var result = new ProblemDetails();
-
-        switch (exception)
+        httpContext.Response.StatusCode = exception switch
         {
-            case EntityNotFoundException entityNotFoundException:
-                result = new ProblemDetails
+            EntityNotFoundException => StatusCodes.Status404NotFound,
+            _ => StatusCodes.Status500InternalServerError
+        };
+
+        var activity = httpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+
+        return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
+        {
+            HttpContext = httpContext,
+            Exception = exception,
+            ProblemDetails = new ProblemDetails
+            {
+                Type = exception.GetType().Name,
+                Title = "An error occured",
+                Detail = exception.Message,
+                Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}",
+                Extensions = new Dictionary<string, object?>
                 {
-                    Status = (int)HttpStatusCode.NotFound,
-                    Type = entityNotFoundException.GetType().Name,
-                    Title = "An unexpected error occurred",
-                    Detail = entityNotFoundException.Message,
-                    Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}",
-                };
-                // _logger.LogError(argumentNullException, $"Exception occured : {argumentNullException.Message}");
-                break;
-        }
-        
-        await httpContext.Response.WriteAsJsonAsync(result, cancellationToken: cancellationToken);
-        
-        return true;
+                    { "requestId", httpContext.TraceIdentifier },
+                    { "traceId", activity?.Id },
+                }
+            }
+        });
     }
 }

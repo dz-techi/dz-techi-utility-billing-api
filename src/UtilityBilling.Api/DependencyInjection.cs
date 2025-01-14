@@ -13,6 +13,7 @@ public static class DependencyInjection
     {
         services.Configure<MongoDbSettings>(configuration.GetSection("MongoDB"));
 
+        services.AddProblemDetails();
         services.AddExceptionHandler<GlobalExceptionHandler>();
 
         services.AddScoped<IDataSeedingService, DataSeedingService>();

@@ -18,7 +18,7 @@ public class UtilityBillPeriodRepository : BaseRepository<UtilityBillPeriodDto>,
     {
         var filter = Builders<UtilityBillPeriodDto>.Filter.Eq(u => u.UserId, userId);
 
-        var sortDefinition = Builders<UtilityBillPeriodDto>.Sort.Ascending(u => u.YearMonth);
+        var sortDefinition = Builders<UtilityBillPeriodDto>.Sort.Ascending(u => u.MonthOfTheYear);
 
         return await Collection.Find(filter).Sort(sortDefinition).ToListAsync(cancellationToken);
     }
