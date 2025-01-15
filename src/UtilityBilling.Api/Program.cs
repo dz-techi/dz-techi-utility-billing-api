@@ -1,9 +1,12 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using UtilityBilling.Api;
 using UtilityBilling.Application;
 using UtilityBilling.Infrastructure;
-using Serilog;
 using UtilityBilling.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,18 +21,45 @@ builder.Services
     .AddApplication()
     .AddInfrastructure();
 
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(res => res.AddService("UtilityBilling.Api"))
+    .WithMetrics(m =>
+    {
+        m.AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+
+        m.AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri("http://localhost:18889");
+        });
+    })
+    .WithTracing(t =>
+    {
+        t.AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+        
+        t.AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri("http://localhost:18889");
+        });
+    });
+
+builder.Logging.AddOpenTelemetry(options =>
+{
+    options.AddConsoleExporter()
+        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("UtilityBilling.Api"));
+    
+    options.AddOtlpExporter(opt =>
+    {
+        opt.Endpoint = new Uri("http://localhost:18889");
+    });
+});
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower));
     });
-
-builder.Host.UseSerilog((context, configuration) =>
-{
-    configuration.ReadFrom.Configuration(builder.Configuration);
-
-    configuration.Enrich.WithEnvironmentName();
-});
 
 var app = builder.Build();
 
@@ -53,7 +83,7 @@ app.UseCors(builder =>
         .AllowAnyMethod();
 });
 
-app.UseSerilogRequestLogging();
+// app.UseSerilogRequestLogging();
 
 // TODO: This ugly part will be removed when this issue is fixed: https://github.com/dotnet/aspnetcore/issues/51888
 app.UseExceptionHandler(_ => { });

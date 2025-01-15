@@ -12,15 +12,19 @@ namespace UtilityBilling.Api.Controllers;
 [Route("api/utility-bill-periods")]
 public class UtilityBillPeriodController : BaseController
 {
-    public UtilityBillPeriodController(IMediator mediator) : base(mediator)
+    private readonly ILogger<UtilityBillPeriodController> _logger;
+    
+    public UtilityBillPeriodController(IMediator mediator, ILogger<UtilityBillPeriodController> logger) : base(mediator)
     {
-        
+        _logger = logger;
     }
     
     [HttpGet]
     public async Task<ActionResult<List<UtilityBillResult>>> GetUtilityBillPeriodsAsync(CancellationToken cancellationToken)
     {
         var getUtilityBillPeriodsQuery = new GetUtilityBillPeriodsQuery();
+        
+        _logger.LogInformation("Getting utility bill periods.");
 
         var result = await _mediator.Send(getUtilityBillPeriodsQuery, cancellationToken);
 

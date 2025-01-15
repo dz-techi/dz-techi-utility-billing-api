@@ -1,5 +1,4 @@
 name: 'Local development'
-version: '3.8'
 
 services:
   mongodb:
@@ -8,6 +7,18 @@ services:
       - '27017:27017'
     volumes:
       - dbdata6:/data/db
+        
+  utility.billing.dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
+    container_name: aspire-dashboard
+    ports:
+      - 18888:18888
+      - 18889:18889
+    networks:
+      - open
   
 volumes:
   dbdata6:
+    
+networks:
+  open:
