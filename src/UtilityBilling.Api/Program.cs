@@ -83,8 +83,6 @@ app.UseCors(builder =>
         .AllowAnyMethod();
 });
 
-// app.UseSerilogRequestLogging();
-
 // TODO: This ugly part will be removed when this issue is fixed: https://github.com/dotnet/aspnetcore/issues/51888
 app.UseExceptionHandler(_ => { });
 
