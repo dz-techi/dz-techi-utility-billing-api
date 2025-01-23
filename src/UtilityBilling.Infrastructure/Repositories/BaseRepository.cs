@@ -25,7 +25,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
         return await Collection.Find(filter).SingleOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<T?> AddAsync(T entityDto, CancellationToken cancellationToken)
+    public async Task<T> AddAsync(T entityDto, CancellationToken cancellationToken)
     {
         if (entityDto.Id == Guid.Empty)
         {

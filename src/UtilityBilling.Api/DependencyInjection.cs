@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using UtilityBilling.Api.Exceptions;
 using UtilityBilling.Api.Services;
 using UtilityBilling.Api.Services.Interfaces;
@@ -18,6 +21,29 @@ public static class DependencyInjection
 
         services.AddScoped<IDataSeedingService, DataSeedingService>();
 
+        services.AddOpenTelemetry()
+            .ConfigureResource(res => res.AddService("UtilityBilling.Api"))
+            .WithMetrics(m =>
+            {
+                m.AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation();
+
+                m.AddOtlpExporter(options =>
+                {
+                    options.Endpoint = new Uri("http://localhost:18889");
+                });
+            })
+            .WithTracing(t =>
+            {
+                t.AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation();
+        
+                t.AddOtlpExporter(options =>
+                {
+                    options.Endpoint = new Uri("http://localhost:18889");
+                });
+            });
+        
         services.AddCors();
         
         services.AddAuthentication(options =>

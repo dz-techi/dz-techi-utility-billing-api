@@ -4,12 +4,4 @@ using UtilityBilling.Contracts.Results.UtilityBillPeriod;
 
 namespace UtilityBilling.Application.Commands.UtilityBillPeriod;
 
-public class AddUtilityBillPeriodCommand : IRequest<GetUtilityBillPeriodResult?>
-{
-    public AddUtilityBillPeriodRequest UtilityBillPeriodRequest { get; }
-
-    public AddUtilityBillPeriodCommand(AddUtilityBillPeriodRequest utilityBillPeriodRequest)
-    {
-        UtilityBillPeriodRequest = utilityBillPeriodRequest;
-    }
-}
+public record AddUtilityBillPeriodCommand(DateOnly MonthOfTheYear) : IRequest<GetUtilityBillPeriodResult?>;

@@ -39,7 +39,7 @@ public class UtilityBillPeriodController : BaseController
     [HttpPost]
     public async Task<ActionResult<UtilityBillResult>> AddUtilityBillPeriodAsync([FromBody] AddUtilityBillPeriodRequest request, CancellationToken cancellationToken)
     {
-        var addUtilityBillPeriodCommand = new AddUtilityBillPeriodCommand(request);
+        var addUtilityBillPeriodCommand = new AddUtilityBillPeriodCommand(request.MonthOfTheYear);
 
         var result = await _mediator.Send(addUtilityBillPeriodCommand, cancellationToken);
 
@@ -52,4 +52,12 @@ public class UtilityBillPeriodController : BaseController
     }
     
     // TODO: Get bill period by id
+    
+    // TODO: Remove bill period by id
+    
+    // TODO: Add utility bill to bill period
+    
+    // TODO: Edit utility bill in bill period
+    
+    // TODO: Delete utility bill from bill period
 }

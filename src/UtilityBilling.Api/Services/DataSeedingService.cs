@@ -8,15 +8,19 @@ namespace UtilityBilling.Api.Services;
 
 public class DataSeedingService : IDataSeedingService
 {
+    private readonly ILogger<DataSeedingService> _logger;
     private readonly IUtilityBillPeriodRepository _utilityBillPeriodRepository;
 
-    public DataSeedingService(IUtilityBillPeriodRepository utilityBillPeriodRepository)
+    public DataSeedingService(ILogger<DataSeedingService> logger, IUtilityBillPeriodRepository utilityBillPeriodRepository)
     {
+        _logger = logger;
         _utilityBillPeriodRepository = utilityBillPeriodRepository;
     }
 
     public async Task SeedTestingData()
     {
+        _logger.LogInformation("Starting to seed data for Development");
+        
         var user1Id = new Guid("99d5d2cf-93e1-4300-ac09-39849738d744");
         var user2Id = new Guid("f830e81d-3da7-4846-87a1-54792b6c2229");
 
@@ -137,5 +141,7 @@ public class DataSeedingService : IDataSeedingService
 
             await _utilityBillPeriodRepository.AddAsync(billPeriod, CancellationToken.None);
         }
+        
+        _logger.LogInformation("Data seeding for Development completed");
     }
 }

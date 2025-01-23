@@ -1,6 +1,6 @@
+using FluentValidation;
 using UtilityBilling.Application.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UtilityBilling.Api.Exceptions;
@@ -12,27 +12,29 @@ public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetails
         httpContext.Response.StatusCode = exception switch
         {
             EntityNotFoundException => StatusCodes.Status404NotFound,
+            EntityAlreadyExistsException => StatusCodes.Status409Conflict,
+            ValidationException => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
 
-        var activity = httpContext.Features.Get<IHttpActivityFeature>()?.Activity;
-
+        var problemDetails = new ProblemDetails
+        {
+            Type = exception.GetType().Name,
+            Title = "An error occured",
+            Detail = exception.Message,
+            Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}",
+        };
+        
+        if (exception is ValidationException validationException)
+        {
+            problemDetails.Extensions.Add("validationErrors", validationException.Errors);
+        }
+        
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
             HttpContext = httpContext,
             Exception = exception,
-            ProblemDetails = new ProblemDetails
-            {
-                Type = exception.GetType().Name,
-                Title = "An error occured",
-                Detail = exception.Message,
-                Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}",
-                Extensions = new Dictionary<string, object?>
-                {
-                    { "requestId", httpContext.TraceIdentifier },
-                    { "traceId", activity?.Id },
-                }
-            }
+            ProblemDetails = problemDetails
         });
     }
 }
