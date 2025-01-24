@@ -20,7 +20,7 @@ public class UtilityBillPeriodController : BaseController
     }
     
     [HttpGet]
-    public async Task<ActionResult<List<UtilityBillResult>>> GetUtilityBillPeriodsAsync(CancellationToken cancellationToken)
+    public async Task<ActionResult<List<GetUtilityBillPeriodResult>>> GetUtilityBillPeriodsAsync(CancellationToken cancellationToken)
     {
         var getUtilityBillPeriodsQuery = new GetUtilityBillPeriodsQuery();
         
@@ -37,7 +37,7 @@ public class UtilityBillPeriodController : BaseController
     }
     
     [HttpPost]
-    public async Task<ActionResult<UtilityBillResult>> AddUtilityBillPeriodAsync([FromBody] AddUtilityBillPeriodRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<GetUtilityBillPeriodResult>> AddUtilityBillPeriodAsync([FromBody] AddUtilityBillPeriodRequest request, CancellationToken cancellationToken)
     {
         var addUtilityBillPeriodCommand = new AddUtilityBillPeriodCommand(request.MonthOfTheYear);
 
@@ -50,10 +50,36 @@ public class UtilityBillPeriodController : BaseController
 
         return Ok(result);
     }
-    
-    // TODO: Get bill period by id
-    
-    // TODO: Remove bill period by id
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<GetUtilityBillPeriodResult>> GetUtilityBillPeriodByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var getUtilityBillPeriodByIdQuery = new GetUtilityBillPeriodQuery(id);
+        
+        var result = await _mediator.Send(getUtilityBillPeriodByIdQuery, cancellationToken);
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> RemoveUtilityBillPeriodByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var removeUtilityBillPeriodCommand = new RemoveUtilityBillPeriodCommand(id);
+        
+        var result = await _mediator.Send(removeUtilityBillPeriodCommand, cancellationToken);
+
+        if (!result)
+        {
+            return BadRequest();
+        }
+
+        return NoContent();
+    }
     
     // TODO: Add utility bill to bill period
     

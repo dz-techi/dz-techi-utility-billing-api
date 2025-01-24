@@ -3,18 +3,21 @@ using MediatR;
 
 namespace UtilityBilling.Application.Common.Behaviors;
 
-public sealed class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? validator) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public sealed class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    private readonly IValidator<TRequest>? _validator = validator;
+    private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
     
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        if (_validator == null)
+        var validator = _validators
+            .SingleOrDefault(v => v.CanValidateInstancesOfType(typeof(TRequest)));
+
+        if (validator == null)
         {
             return await next();
         }
         
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
         
         if (validationResult.IsValid)
         {

@@ -38,4 +38,13 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
 
         return entityDto;
     }
+    
+    public async Task<bool> RemoveAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var filter = Builders<T>.Filter.Eq(e => e.Id, id);
+
+        var result = await Collection.DeleteOneAsync(filter, cancellationToken);
+
+        return result.DeletedCount > 0;
+    }
 }
