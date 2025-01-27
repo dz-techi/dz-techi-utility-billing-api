@@ -1,8 +1,8 @@
 using MapsterMapper;
 using MediatR;
-using UtilityBilling.Application.Exceptions;
 using UtilityBilling.Application.Queries.UtilityBillPeriod;
 using UtilityBilling.Contracts.Results.UtilityBillPeriod;
+using UtilityBilling.Domain.Exceptions;
 using UtilityBilling.Infrastructure.Repositories.Interfaces;
 
 namespace UtilityBilling.Application.Handlers.UtilityBillPeriod;

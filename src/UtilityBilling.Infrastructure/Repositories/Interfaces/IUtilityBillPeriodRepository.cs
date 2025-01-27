@@ -1,4 +1,4 @@
-using UtilityBilling.Domain.Models;
+using UtilityBilling.Domain.UtilityBillPeriod;
 
 namespace UtilityBilling.Infrastructure.Repositories.Interfaces;
 

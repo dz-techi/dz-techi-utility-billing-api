@@ -1,9 +1,9 @@
-using UtilityBilling.Application.Exceptions;
 using UtilityBilling.Application.Queries.Product;
 using UtilityBilling.Contracts.Results.Product;
 using UtilityBilling.Infrastructure.Repositories.Interfaces;
 using MapsterMapper;
 using MediatR;
+using UtilityBilling.Domain.Exceptions;
 
 namespace UtilityBilling.Application.Handlers.Product;
 

@@ -1,9 +1,9 @@
 using MapsterMapper;
 using MediatR;
 using UtilityBilling.Application.Commands.UtilityBillPeriod;
-using UtilityBilling.Application.Exceptions;
 using UtilityBilling.Contracts.Results.UtilityBillPeriod;
-using UtilityBilling.Domain.Models;
+using UtilityBilling.Domain.Exceptions;
+using UtilityBilling.Domain.UtilityBillPeriod;
 using UtilityBilling.Infrastructure.Repositories.Interfaces;
 
 namespace UtilityBilling.Application.Handlers.UtilityBillPeriod;
@@ -33,12 +33,8 @@ public class AddUtilityBillPeriodHandler : IRequestHandler<AddUtilityBillPeriodC
         {
             throw new EntityAlreadyExistsException($"Billing period for month of the year: {request.MonthOfTheYear} already exists");
         }
-        
-        var utilityBillPeriodDto = new UtilityBillPeriodDto
-        {
-            UserId = userId,
-            MonthOfTheYear = request.MonthOfTheYear
-        };
+
+        var utilityBillPeriodDto = new UtilityBillPeriodDto(userId, request.MonthOfTheYear);
 
         await _utilityBillPeriodRepository.AddAsync(utilityBillPeriodDto, cancellationToken);
         

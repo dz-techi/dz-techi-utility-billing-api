@@ -5,6 +5,8 @@ namespace UtilityBilling.Contracts.Results.UtilityBillPeriod;
 
 public class UtilityBillResult
 {
+    public Guid Id { get; set; }
+    
     public UtilityBillType UtilityBillType { get; set; }
 
     public decimal Usage { get; set; }

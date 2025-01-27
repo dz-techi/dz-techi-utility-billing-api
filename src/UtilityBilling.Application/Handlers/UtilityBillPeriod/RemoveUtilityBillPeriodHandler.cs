@@ -1,6 +1,6 @@
 using MediatR;
 using UtilityBilling.Application.Commands.UtilityBillPeriod;
-using UtilityBilling.Application.Exceptions;
+using UtilityBilling.Domain.Exceptions;
 using UtilityBilling.Infrastructure.Repositories.Interfaces;
 
 namespace UtilityBilling.Application.Handlers.UtilityBillPeriod;

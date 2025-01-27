@@ -1,5 +1,5 @@
 using MongoDB.Driver;
-using UtilityBilling.Domain.Models;
+using UtilityBilling.Domain.UtilityBillPeriod;
 using UtilityBilling.Infrastructure.Constants;
 using UtilityBilling.Infrastructure.Database;
 using UtilityBilling.Infrastructure.Repositories.Interfaces;

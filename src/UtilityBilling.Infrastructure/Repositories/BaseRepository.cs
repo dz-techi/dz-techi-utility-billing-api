@@ -38,6 +38,17 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
 
         return entityDto;
     }
+
+    public async Task<T> UpsertAsync(T entityDto, CancellationToken cancellationToken)
+    {
+        await Collection.ReplaceOneAsync(
+            Builders<T>.Filter.Eq(e => e.Id, entityDto.Id),
+            entityDto,
+            new ReplaceOptions { IsUpsert = true },
+            cancellationToken);
+
+        return entityDto;
+    }
     
     public async Task<bool> RemoveAsync(Guid id, CancellationToken cancellationToken)
     {

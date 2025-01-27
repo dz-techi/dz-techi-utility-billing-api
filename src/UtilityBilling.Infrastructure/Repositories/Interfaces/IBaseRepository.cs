@@ -8,5 +8,7 @@ public interface IBaseRepository<T> where T : BaseEntity
 
     Task<T> AddAsync(T entityDto, CancellationToken cancellationToken);
     
+    Task<T> UpsertAsync(T entityDto, CancellationToken cancellationToken);
+    
     Task<bool> RemoveAsync(Guid id, CancellationToken cancellationToken);
 }

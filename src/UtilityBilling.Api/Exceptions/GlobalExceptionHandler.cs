@@ -1,7 +1,7 @@
 using FluentValidation;
-using UtilityBilling.Application.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using UtilityBilling.Domain.Exceptions;
 
 namespace UtilityBilling.Api.Exceptions;
 

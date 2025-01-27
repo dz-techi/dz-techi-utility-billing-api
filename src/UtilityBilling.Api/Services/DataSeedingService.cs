@@ -1,7 +1,7 @@
 using UtilityBilling.Api.Services.Interfaces;
 using UtilityBilling.Contracts.Common.Enums;
 using UtilityBilling.Contracts.Common.UtilityUnitType;
-using UtilityBilling.Domain.Models;
+using UtilityBilling.Domain.UtilityBillPeriod;
 using UtilityBilling.Infrastructure.Repositories.Interfaces;
 
 namespace UtilityBilling.Api.Services;

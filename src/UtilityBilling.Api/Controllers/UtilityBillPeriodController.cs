@@ -1,6 +1,6 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UtilityBilling.Application.Commands.UtilityBill;
 using UtilityBilling.Application.Commands.UtilityBillPeriod;
 using UtilityBilling.Application.Queries.UtilityBillPeriod;
 using UtilityBilling.Contracts.Requests.UtilityBillPeriod;
@@ -81,9 +81,48 @@ public class UtilityBillPeriodController : BaseController
         return NoContent();
     }
     
-    // TODO: Add utility bill to bill period
+    [HttpPost("{id}/utility-bills")]
+    public async Task<ActionResult<GetUtilityBillPeriodResult>> AddUtilityBillAsync(Guid id, [FromBody] AddUtilityBillRequest request, CancellationToken cancellationToken)
+    {
+        var addUtilityBillCommand = new AddUtilityBillCommand(id, request);
+        
+        var result = await _mediator.Send(addUtilityBillCommand, cancellationToken);
+
+        if (result == null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
     
-    // TODO: Edit utility bill in bill period
+    [HttpPatch("{id}/utility-bills/{utilityBillId}")]
+    public async Task<ActionResult<GetUtilityBillPeriodResult>> UpdateUtilityBillAsync(Guid id, Guid utilityBillId, [FromBody] UpdateUtilityBillRequest request, CancellationToken cancellationToken)
+    {
+        var updateUtilityBillCommand = new UpdateUtilityBillCommand(id, utilityBillId, request.Usage, request.Cost);
+        
+        var result = await _mediator.Send(updateUtilityBillCommand, cancellationToken);
+
+        if (result == null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
     
-    // TODO: Delete utility bill from bill period
+    [HttpDelete("{id}/utility-bills/{utilityBillId}")]
+    public async Task<ActionResult> RemoveUtilityBillAsync(Guid id, Guid utilityBillId, CancellationToken cancellationToken)
+    {
+        var removeUtilityBillCommand = new RemoveUtilityBillCommand(id, utilityBillId);
+        
+        var result = await _mediator.Send(removeUtilityBillCommand, cancellationToken);
+
+        if (!result)
+        {
+            return BadRequest();
+        }
+
+        return NoContent();
+    }
 }

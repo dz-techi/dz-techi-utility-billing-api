@@ -1,4 +1,4 @@
-namespace UtilityBilling.Application.Exceptions;
+namespace UtilityBilling.Domain.Exceptions;
 
 public class EntityAlreadyExistsException : Exception
 {
